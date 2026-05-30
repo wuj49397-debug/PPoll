@@ -4,6 +4,52 @@ This page summarizes the PolliFlower baseline results under the Standard and Cha
 
 `data_standard` corresponds to the Standard Protocol, and `data_hard` corresponds to the Challenging Protocol. Higher values are better for Precision, Recall, mAP, IoU, StrictIoU, Pose mAP50, and StrictPCK. Lower values are better for StrictDist.
 
+## Qualitative Examples
+
+The following examples show baseline predictions on public sample images. These visualizations are provided for qualitative inspection only; full benchmark reproduction requires access to the complete PolliFlower dataset.
+
+### Flower Instance Detection
+
+**Standard Protocol**
+
+![Standard detection example 1](assets/qualitative_results/detect/standard/0bb29d0a-1198-4ec9-8267-fe6896e0a4c9.jpg)
+![Standard detection example 2](assets/qualitative_results/detect/standard/0e6aa8aa-9f61-456e-afa6-a533607def35.jpg)
+![Standard detection example 3](assets/qualitative_results/detect/standard/760a32c4-7e33-4bba-add3-eee6721dbd7d.jpg)
+
+**Challenging Protocol**
+
+![Challenging detection example 1](assets/qualitative_results/detect/challenging/e8f5a687-25a1-46f2-a363-e9686b9e09f9.jpg)
+![Challenging detection example 2](assets/qualitative_results/detect/challenging/f49b6e97-0f02-4d4a-ad79-2e892adf85eb.jpg)
+![Challenging detection example 3](assets/qualitative_results/detect/challenging/f9fa06e9-2961-494b-9501-e3c55e801332.jpg)
+
+### Stigma Instance Segmentation
+
+**Standard Protocol**
+
+![Standard segmentation example 1](assets/qualitative_results/segment/standard/0bb29d0a-1198-4ec9-8267-fe6896e0a4c9.jpg)
+![Standard segmentation example 2](assets/qualitative_results/segment/standard/0e6aa8aa-9f61-456e-afa6-a533607def35.jpg)
+![Standard segmentation example 3](assets/qualitative_results/segment/standard/760a32c4-7e33-4bba-add3-eee6721dbd7d.jpg)
+
+**Challenging Protocol**
+
+![Challenging segmentation example 1](assets/qualitative_results/segment/challenging/e8f5a687-25a1-46f2-a363-e9686b9e09f9.jpg)
+![Challenging segmentation example 2](assets/qualitative_results/segment/challenging/f49b6e97-0f02-4d4a-ad79-2e892adf85eb.jpg)
+![Challenging segmentation example 3](assets/qualitative_results/segment/challenging/f9fa06e9-2961-494b-9501-e3c55e801332.jpg)
+
+### Pollination Point Localization
+
+**Standard Protocol**
+
+![Standard pose example 1](assets/qualitative_results/pose/standard/0bb29d0a-1198-4ec9-8267-fe6896e0a4c9.jpg)
+![Standard pose example 2](assets/qualitative_results/pose/standard/0e6aa8aa-9f61-456e-afa6-a533607def35.jpg)
+![Standard pose example 3](assets/qualitative_results/pose/standard/760a32c4-7e33-4bba-add3-eee6721dbd7d.jpg)
+
+**Challenging Protocol**
+
+![Challenging pose example 1](assets/qualitative_results/pose/challenging/e8f5a687-25a1-46f2-a363-e9686b9e09f9.jpg)
+![Challenging pose example 2](assets/qualitative_results/pose/challenging/f49b6e97-0f02-4d4a-ad79-2e892adf85eb.jpg)
+![Challenging pose example 3](assets/qualitative_results/pose/challenging/f9fa06e9-2961-494b-9501-e3c55e801332.jpg)
+
 ## Standard Protocol
 
 ### Flower Instance Detection
