@@ -78,7 +78,25 @@ The benchmark includes representative baselines for each task:
 
 ## Results
 
-Baseline results are summarized in [RESULTS.md](RESULTS.md). Qualitative examples are provided below for visual inspection.
+Baseline results are summarized in [RESULTS.md](RESULTS.md). Annotation examples and qualitative prediction examples are provided below for visual inspection.
+
+## Annotation Examples
+
+The following examples show original annotations, including flower bounding boxes, visible stigma regions, pollination points, and instance-level correspondence.
+
+**Standard Protocol**
+
+![Standard annotation example 1](assets/annotation_examples/standard/a22bcb25-8fe6-446d-a7b1-ed64536e3ab9.png)
+![Standard annotation example 2](assets/annotation_examples/standard/b7e6924a-4cc9-4463-91ca-29128fe35df2.png)
+![Standard annotation example 3](assets/annotation_examples/standard/fb9f2303-384b-4396-9574-87a21bcebf1a.png)
+
+**Challenging Protocol**
+
+![Challenging annotation example 1](assets/annotation_examples/challenging/6a8ef323-9f75-465f-b6a2-a2285744aef5.png)
+![Challenging annotation example 2](assets/annotation_examples/challenging/bd38ca96-2d7e-43bd-99b0-24a7a0e98f08.png)
+![Challenging annotation example 3](assets/annotation_examples/challenging/bfd95cad-dca0-423e-9dc8-104c0cd1c327.png)
+
+## Qualitative Prediction Examples
 
 ### Flower Instance Detection
 
