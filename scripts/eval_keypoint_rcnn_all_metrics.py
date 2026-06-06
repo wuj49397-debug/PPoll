@@ -125,7 +125,7 @@ def evaluate_all(model, dataset, loader, device, conf=0.25, box_iou_thr=0.5, kpt
             boxes = out["boxes"].detach().cpu().numpy()
             keypoints = out["keypoints"].detach().cpu().numpy()
 
-            pred_items_for_strict = []
+            pred_items_for_operation = []
 
             for score, box, kp in zip(scores, boxes, keypoints):
                 score = float(score)
@@ -149,34 +149,34 @@ def evaluate_all(model, dataset, loader, device, conf=0.25, box_iou_thr=0.5, kpt
                     })
 
                 if score >= conf:
-                    pred_items_for_strict.append({
+                    pred_items_for_operation.append({
                         "box": box.astype(np.float32),
                         "point": np.array([px, py], dtype=np.float32),
                         "score": score,
                     })
 
-            matches = greedy_match(pred_items_for_strict, gt_items, box_iou_thr)
+            matches = greedy_match(pred_items_for_operation, gt_items, box_iou_thr)
 
             total_gt += len(gt_items)
-            total_pred_conf += len(pred_items_for_strict)
+            total_pred_conf += len(pred_items_for_operation)
 
             for gt, pred, match_iou in matches:
                 if pred is None:
                     per_instance.append({
                         "matched": False,
                         "dist": None,
-                        "strict_dist": None,
+                        "abs_dist": None,
                         "box_iou": float(match_iou),
                     })
                 else:
                     dist = float(np.linalg.norm(pred["point"] - gt["point"]))
-                    strict_dist = dist / math.sqrt(max(gt["stigma_area"], 1e-6))
+                    abs_dist = dist / math.sqrt(max(gt["stigma_area"], 1e-6))
                     matched += 1
 
                     per_instance.append({
                         "matched": True,
                         "dist": dist,
-                        "strict_dist": strict_dist,
+                        "abs_dist": abs_dist,
                         "box_iou": float(match_iou),
                     })
 
@@ -190,10 +190,10 @@ def evaluate_all(model, dataset, loader, device, conf=0.25, box_iou_thr=0.5, kpt
     matched_items = [x for x in per_instance if x["matched"]]
 
     mpe = float(np.mean([x["dist"] for x in matched_items])) if matched_items else 0.0
-    strict_dist = float(np.mean([x["strict_dist"] for x in matched_items])) if matched_items else 0.0
+    abs_dist = float(np.mean([x["abs_dist"] for x in matched_items])) if matched_items else 0.0
 
-    pck005 = sum(1 for x in per_instance if x["matched"] and x["strict_dist"] <= 0.05) / max(len(per_instance), 1)
-    pck010 = sum(1 for x in per_instance if x["matched"] and x["strict_dist"] <= 0.10) / max(len(per_instance), 1)
+    pck005 = sum(1 for x in per_instance if x["matched"] and x["abs_dist"] <= 0.05) / max(len(per_instance), 1)
+    pck010 = sum(1 for x in per_instance if x["matched"] and x["abs_dist"] <= 0.10) / max(len(per_instance), 1)
 
     return {
         "images": len(dataset),
@@ -207,9 +207,9 @@ def evaluate_all(model, dataset, loader, device, conf=0.25, box_iou_thr=0.5, kpt
         "Pose mAP50": pose_map50,
         "Pose mAP50-95": pose_map5095,
         "MPE": mpe,
-        "StrictDist": strict_dist,
-        "StrictPCK@0.05": pck005,
-        "StrictPCK@0.10": pck010,
+        "AbsDist": abs_dist,
+        "StriPCK@0.05": pck005,
+        "StriPCK@0.10": pck010,
     }
 
 

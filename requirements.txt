@@ -1,4 +1,4 @@
-# PolliFlower baseline dependencies.
+# PPoll baseline dependencies.
 #
 # Python version used in the experiments:
 #   Python 3.11.15

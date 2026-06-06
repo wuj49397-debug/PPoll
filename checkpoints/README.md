@@ -1,4 +1,4 @@
-﻿# Checkpoints
+# Checkpoints
 
 This directory does not contain model weights in the public repository.
 
@@ -16,4 +16,4 @@ Expected pretrained weights may include:
 - `keypointrcnn_resnet50_fpn_coco.pth`
 - `mask2former-swin-tiny-coco-instance`
 
-The full trained weights and complete dataset are available upon request under the PolliFlower Data Use Agreement.
+The full trained weights and complete dataset are available upon request under the PPoll Data Use Agreement.

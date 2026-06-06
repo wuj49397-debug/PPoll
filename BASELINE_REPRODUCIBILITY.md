@@ -1,4 +1,4 @@
-# PolliFlower Baseline Reproducibility README
+# PPoll Baseline Reproducibility README
 
 This README records the commands used to reproduce the standard-split and challenging-split baseline experiments. All commands assume the project root is:
 
@@ -55,7 +55,7 @@ scripts/select_keypoint_rcnn_map_best.py
 scripts/eval_keypoint_rcnn_all_metrics.py
 ```
 
-`eval_yolov8_stigma_iou_tau080.py`, `train_mask_rcnn_stigma_tau080.py`, and `train_mask2former_stigma_tau080.py` use `StrictIoU@0.8`. 
+`eval_yolov8_stigma_iou_tau080.py`, `train_mask_rcnn_stigma_tau080.py`, and `train_mask2former_stigma_tau080.py` use `EIoU@0.8`. 
 
 ## 3. Flower Instance Detection
 
@@ -150,7 +150,7 @@ python scripts/eval_faster_rcnn_pr.py \
 
 ## 4. Stigma Instance Segmentation
 
-The main table reports `IoU`, `StrictIoU@0.8`, `mAP@0.5`, and `mAP@0.5:0.95`.
+The main table reports `IoU`, `EIoU@0.8`, `mAP@0.5`, and `mAP@0.5:0.95`.
 
 ### 4.1 YOLOv8s-seg
 
@@ -225,7 +225,7 @@ python scripts/train_mask2former_stigma_tau080.py \
 
 ## 5. Pollination Point Localization
 
-The main table reports `Pose mAP@0.5`, `StrictDist`, `StrictPCK@0.05`, and `StrictPCK@0.10`. 
+The main table reports `Pose mAP@0.5`, `AbsDist`, `StriPCK@0.05`, and `StriPCK@0.10`. 
 
 ### 5.1 YOLOv8s-pose
 
@@ -300,7 +300,7 @@ python scripts/eval_yolov8_pose_point_metrics.py \
 
 ### 5.3 Keypoint R-CNN
 
-For fair checkpoint selection, Keypoint R-CNN uses validation `Pose mAP@0.5` to select `best_map.pt`. The task-specific strict metrics are reported only on the final test set.
+For fair checkpoint selection, Keypoint R-CNN uses validation `Pose mAP@0.5` to select `best_map.pt`. The task-specific operation-oriented metrics are reported only on the final test set.
 
 ```bash
 KPT_OUT=/root/autodl-tmp/flower_baseline/${OUTDIR}/keypoint_rcnn_pollination/keypointrcnn_r50_fpn_1024_mapbest
@@ -364,5 +364,5 @@ python scripts/eval_keypoint_rcnn_all_metrics.py \
 - Use `outputs_data_hard` only for `data_hard`.
 - Avoid spaces after the line-continuation character `\`.
 - YOLO pose custom metrics should use raw split images, e.g. `${DATASET}/test/images`, rather than `${DATASET}/yolo_pollination_pose/images/test`.
-- `StrictIoU` for stigma segmentation is reported as `StrictIoU@0.8`.
+- `EIoU` for stigma segmentation is reported as `EIoU@0.8`.
 

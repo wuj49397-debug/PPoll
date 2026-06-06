@@ -146,7 +146,7 @@ def mask_iou_and_cov(pred, gt):
 
 def greedy_iou(gt_masks, pred_masks):
     matched = set()
-    ious, strict_ious, covs = [], [], []
+    ious, eious, covs = [], [], []
 
     for gt in gt_masks:
         best_iou, best_cov, best_j = 0.0, 0.0, -1
@@ -160,9 +160,9 @@ def greedy_iou(gt_masks, pred_masks):
             matched.add(best_j)
         ious.append(best_iou)
         covs.append(best_cov)
-        strict_ious.append(best_iou if best_cov >= 0.8 else 0.0)
+        eious.append(best_iou if best_cov >= 0.8 else 0.0)
 
-    return ious, strict_ious, covs
+    return ious, eious, covs
 
 
 @torch.no_grad()
@@ -170,7 +170,7 @@ def evaluate(model, loader, device, conf=0.25):
     model.eval()
     metric = MeanAveragePrecision(iou_type="segm", class_metrics=False)
 
-    all_ious, all_strict, all_cov = [], [], []
+    all_ious, all_eiou, all_cov = [], [], []
     total_images, total_gt, total_pred = 0, 0, 0
 
     for images, targets in loader:
@@ -203,9 +203,9 @@ def evaluate(model, loader, device, conf=0.25):
             keep = scores >= conf
             pred_masks = pred_bool_all[keep].numpy().astype(np.uint8)
 
-            ious, strict, covs = greedy_iou(gt_masks, pred_masks)
+            ious, eious, covs = greedy_iou(gt_masks, pred_masks)
             all_ious.extend(ious)
-            all_strict.extend(strict)
+            all_eiou.extend(eious)
             all_cov.extend(covs)
 
             total_images += 1
@@ -220,7 +220,7 @@ def evaluate(model, loader, device, conf=0.25):
         "gt_instances": total_gt,
         "pred_instances_conf025": total_pred,
         "IoU": float(np.mean(all_ious)) if all_ious else 0.0,
-        "StrictIoU": float(np.mean(all_strict)) if all_strict else 0.0,
+        "EIoU": float(np.mean(all_eiou)) if all_eiou else 0.0,
         "MeanCoverage": float(np.mean(all_cov)) if all_cov else 0.0,
         "mAP@0.5": float(res["map_50"]),
         "mAP@0.5:0.95": float(res["map"]),
@@ -304,7 +304,7 @@ def main():
         val_res["train_loss"] = loss
         history.append(val_res)
 
-        print(f"Epoch {epoch} Val | IoU {val_res['IoU']:.4f} | StrictIoU {val_res['StrictIoU']:.4f} | mAP50 {val_res['mAP@0.5']:.4f} | mAP50-95 {val_res['mAP@0.5:0.95']:.4f}", flush=True)
+        print(f"Epoch {epoch} Val | IoU {val_res['IoU']:.4f} | EIoU {val_res['EIoU']:.4f} | mAP50 {val_res['mAP@0.5']:.4f} | mAP50-95 {val_res['mAP@0.5:0.95']:.4f}", flush=True)
 
         ckpt = {"epoch": epoch, "model": model.state_dict(), "optimizer": optimizer.state_dict(), "scheduler": scheduler.state_dict(), "val": val_res, "args": vars(args)}
         torch.save(ckpt, out_dir / "last.pt")

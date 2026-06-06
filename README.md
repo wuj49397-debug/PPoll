@@ -1,10 +1,10 @@
-# PolliFlower
+# PPoll
 
-PolliFlower is a multi-crop hierarchical dataset and benchmark for precision pollination perception. It is designed for operation-oriented agricultural vision, where a model must not only localize flowers but also identify visible stigma regions and actionable pollination points.
+PPoll is a multi-crop hierarchical dataset and benchmark for precision pollination perception. It is designed for operation-oriented agricultural vision, where a model must not only localize flowers but also identify visible stigma regions and actionable pollination points.
 
 ## Benchmark Tasks
 
-PolliFlower defines three benchmark tasks:
+PPoll defines three benchmark tasks:
 
 1. **Flower Instance Detection**  
    Detect flower instances in each image using bounding boxes.
@@ -25,7 +25,7 @@ This repository currently provides:
 - checkpoint preparation instructions;
 - data access and usage terms.
 
-The full PolliFlower dataset is not publicly released before publication. Researchers who need access to the complete dataset should contact the maintainers and sign the PolliFlower Data Use Agreement.
+The full PPoll dataset is not publicly released before publication. Researchers who need access to the complete dataset should contact the maintainers and sign the PPoll Data Use Agreement.
 
 ## Sample Data Structure
 
@@ -148,7 +148,7 @@ Please manually download or prepare the required pretrained weights before runni
 
 ## Data Access
 
-The complete PolliFlower dataset is available upon request for academic research only. To request access, please provide:
+The complete PPoll dataset is available upon request for academic research only. To request access, please provide:
 
 1. Name
 2. Affiliation
@@ -156,7 +156,7 @@ The complete PolliFlower dataset is available upon request for academic research
 4. Institutional email
 5. Research purpose
 6. Agreement not to redistribute the dataset
-7. Agreement to cite the PolliFlower paper after publication
+7. Agreement to cite the PPoll paper after publication
 
 Please see [DATA_USE_AGREEMENT.md](DATA_USE_AGREEMENT.md) for the data usage terms.
 

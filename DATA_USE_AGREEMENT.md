@@ -1,8 +1,8 @@
-# PolliFlower Data Use Agreement
+# PPoll Data Use Agreement
 
-This Data Use Agreement governs access to and use of the complete PolliFlower dataset.
+This Data Use Agreement governs access to and use of the complete PPoll dataset.
 
-The complete PolliFlower dataset is provided for academic research and educational purposes only. By requesting, downloading, accessing, or using the dataset, the user agrees to the following terms.
+The complete PPoll dataset is provided for academic research and educational purposes only. By requesting, downloading, accessing, or using the dataset, the user agrees to the following terms.
 
 ## 1. Permitted Use
 
@@ -13,7 +13,7 @@ Permitted uses include:
 - training and evaluating computer vision models;
 - studying precision pollination perception;
 - developing detection, segmentation, or keypoint localization methods;
-- reproducing or extending the PolliFlower benchmark.
+- reproducing or extending the PPoll benchmark.
 
 ## 2. Prohibited Use
 
@@ -34,7 +34,7 @@ If the dataset is stored on institutional servers, cloud platforms, or shared co
 
 ## 4. Publication and Citation
 
-Any publication, report, presentation, preprint, or derivative work using the PolliFlower dataset must cite the PolliFlower paper after publication.
+Any publication, report, presentation, preprint, or derivative work using the PPoll dataset must cite the PPoll paper after publication.
 
 The citation entry will be provided after the paper is published.
 
@@ -50,7 +50,7 @@ Trained model weights may be released only if they do not contain or reconstruct
 
 Commercial use is not permitted under this agreement.
 
-Any commercial use, including use in commercial products, services, paid model training, or industrial deployment, requires prior written permission from the PolliFlower maintainers.
+Any commercial use, including use in commercial products, services, paid model training, or industrial deployment, requires prior written permission from the PPoll maintainers.
 
 ## 7. Access Request
 
@@ -63,7 +63,7 @@ To request access to the full dataset, please provide:
 5. Research purpose
 6. Project title or brief project description
 7. Confirmation that the dataset will not be redistributed
-8. Confirmation that the PolliFlower paper will be cited after publication
+8. Confirmation that the PPoll paper will be cited after publication
 
 Requests should be sent to:
 
@@ -79,4 +79,4 @@ Upon termination, the user must delete all copies of the dataset and confirm del
 The dataset is provided "as is", without warranty of any kind. The maintainers are not responsible for any damage, loss, or liability arising from the use of the dataset.
 
 ## 10. Agreement
-By accessing or using the full PolliFlower dataset, the user acknowledges that they have read, understood, and agreed to the terms of the terms of this Data Use Agreement.
+By accessing or using the full PPoll dataset, the user acknowledges that they have read, understood, and agreed to the terms of the terms of this Data Use Agreement.

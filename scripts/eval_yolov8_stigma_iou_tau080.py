@@ -100,12 +100,12 @@ def greedy_match(gt_masks, pred_masks):
         if best_j >= 0:
             matched_pred.add(best_j)
 
-        strict_iou = best_iou if best_cov >= 0.8 else 0.0
+        eiou = best_iou if best_cov >= 0.8 else 0.0
 
         per_gt.append({
             "iou": best_iou,
             "coverage": best_cov,
-            "strict_iou": strict_iou,
+            "eiou": eiou,
             "matched": best_j >= 0,
         })
 
@@ -120,7 +120,7 @@ def main():
     parser.add_argument("--imgsz", type=int, default=1024)
     parser.add_argument("--conf", type=float, default=0.25)
     parser.add_argument("--device", default="0")
-    parser.add_argument("--out", default="/root/autodl-tmp/flower_baseline/outputs/yolov8_stigma_seg_eval/yolov8s_seg_1024_test/iou_strictiou.json")
+    parser.add_argument("--out", default="/root/autodl-tmp/flower_baseline/outputs/yolov8_stigma_seg_eval/yolov8s_seg_1024_test/iou_eiou.json")
     args = parser.parse_args()
 
     image_dir = Path(args.images)
@@ -171,11 +171,11 @@ def main():
 
     if len(all_items) == 0:
         mean_iou = 0.0
-        mean_strict_iou = 0.0
+        mean_eiou = 0.0
         mean_cov = 0.0
     else:
         mean_iou = float(np.mean([x["iou"] for x in all_items]))
-        mean_strict_iou = float(np.mean([x["strict_iou"] for x in all_items]))
+        mean_eiou = float(np.mean([x["eiou"] for x in all_items]))
         mean_cov = float(np.mean([x["coverage"] for x in all_items]))
 
     summary = {
@@ -186,7 +186,7 @@ def main():
         "imgsz": args.imgsz,
         "mean_iou": mean_iou,
         "mean_coverage": mean_cov,
-        "mean_strict_iou": mean_strict_iou,
+        "mean_eiou": mean_eiou,
     }
 
     out = {
@@ -201,7 +201,7 @@ def main():
     print(f"GT instances: {summary['gt_instances']}")
     print(f"Pred instances: {summary['pred_instances']}")
     print(f"IoU: {summary['mean_iou']:.4f}")
-    print(f"StrictIoU: {summary['mean_strict_iou']:.4f}")
+    print(f"EIoU: {summary['mean_eiou']:.4f}")
     print(f"Mean coverage: {summary['mean_coverage']:.4f}")
     print(f"Saved to: {out_path}")
 

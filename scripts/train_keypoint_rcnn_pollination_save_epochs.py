@@ -274,7 +274,7 @@ def greedy_match(pred_items, gt_items, iou_thr):
 
 
 @torch.no_grad()
-def evaluate_strict(model, dataset, loader, device, conf=0.25, box_iou_thr=0.5):
+def evaluate_operation_metrics(model, dataset, loader, device, conf=0.25, box_iou_thr=0.5):
     model.eval()
 
     per_instance = []
@@ -310,31 +310,31 @@ def evaluate_strict(model, dataset, loader, device, conf=0.25, box_iou_thr=0.5):
 
             for gt, pred, match_iou in matches:
                 if pred is None:
-                    per_instance.append({"matched": False, "dist": None, "strict_dist": None, "box_iou": float(match_iou)})
+                    per_instance.append({"matched": False, "dist": None, "abs_dist": None, "box_iou": float(match_iou)})
                 else:
                     dist = float(np.linalg.norm(pred["point"] - gt["point"]))
-                    strict_dist = dist / math.sqrt(max(gt["stigma_area"], 1e-6))
+                    abs_dist = dist / math.sqrt(max(gt["stigma_area"], 1e-6))
                     matched += 1
-                    per_instance.append({"matched": True, "dist": dist, "strict_dist": strict_dist, "box_iou": float(match_iou)})
+                    per_instance.append({"matched": True, "dist": dist, "abs_dist": abs_dist, "box_iou": float(match_iou)})
 
         img_offset += len(images)
 
     matched_items = [x for x in per_instance if x["matched"]]
 
     mpe = float(np.mean([x["dist"] for x in matched_items])) if matched_items else 0.0
-    strict_dist = float(np.mean([x["strict_dist"] for x in matched_items])) if matched_items else 0.0
+    abs_dist = float(np.mean([x["abs_dist"] for x in matched_items])) if matched_items else 0.0
 
-    pck005 = sum(1 for x in per_instance if x["matched"] and x["strict_dist"] <= 0.05) / max(len(per_instance), 1)
-    pck010 = sum(1 for x in per_instance if x["matched"] and x["strict_dist"] <= 0.10) / max(len(per_instance), 1)
+    pck005 = sum(1 for x in per_instance if x["matched"] and x["abs_dist"] <= 0.05) / max(len(per_instance), 1)
+    pck010 = sum(1 for x in per_instance if x["matched"] and x["abs_dist"] <= 0.10) / max(len(per_instance), 1)
 
     return {
         "gt_instances": total_gt,
         "pred_instances": total_pred,
         "matched_instances": matched,
         "MPE": mpe,
-        "StrictDist": strict_dist,
-        "StrictPCK@0.05": pck005,
-        "StrictPCK@0.10": pck010,
+        "AbsDist": abs_dist,
+        "StriPCK@0.05": pck005,
+        "StriPCK@0.10": pck010,
     }
 
 
@@ -419,14 +419,14 @@ def main():
         loss = train_one_epoch(model, optimizer, train_loader, device, epoch)
         scheduler.step()
 
-        val_res = evaluate_strict(model, val_set, val_loader, device, conf=args.conf, box_iou_thr=args.box_iou)
+        val_res = evaluate_operation_metrics(model, val_set, val_loader, device, conf=args.conf, box_iou_thr=args.box_iou)
         val_res["epoch"] = epoch
         val_res["train_loss"] = loss
         history.append(val_res)
 
         print(
-            f"Epoch {epoch} Val | MPE {val_res['MPE']:.4f} | StrictDist {val_res['StrictDist']:.4f} | "
-            f"PCK@0.05 {val_res['StrictPCK@0.05']:.4f} | PCK@0.10 {val_res['StrictPCK@0.10']:.4f}",
+            f"Epoch {epoch} Val | MPE {val_res['MPE']:.4f} | AbsDist {val_res['AbsDist']:.4f} | "
+            f"PCK@0.05 {val_res['StriPCK@0.05']:.4f} | PCK@0.10 {val_res['StriPCK@0.10']:.4f}",
             flush=True,
         )
 
@@ -442,18 +442,18 @@ def main():
         torch.save(ckpt, out_dir / "last.pt")
         torch.save(ckpt, out_dir / f"epoch_{epoch:03d}.pt")
 
-        if val_res["StrictPCK@0.10"] > best_score:
-            best_score = val_res["StrictPCK@0.10"]
+        if val_res["StriPCK@0.10"] > best_score:
+            best_score = val_res["StriPCK@0.10"]
             torch.save(ckpt, out_dir / "best.pt")
-            print(f"Saved best checkpoint at epoch {epoch}: StrictPCK@0.10={best_score:.4f}", flush=True)
+            print(f"Saved best checkpoint at epoch {epoch}: StriPCK@0.10={best_score:.4f}", flush=True)
 
         (out_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
 
-    print("Loading best checkpoint for strict test evaluation...")
+    print("Loading best checkpoint for operation-oriented test evaluation...")
     best = torch.load(out_dir / "best.pt", map_location=device)
     model.load_state_dict(best["model"])
 
-    test_res = evaluate_strict(model, test_set, test_loader, device, conf=args.conf, box_iou_thr=args.box_iou)
+    test_res = evaluate_operation_metrics(model, test_set, test_loader, device, conf=args.conf, box_iou_thr=args.box_iou)
     (out_dir / "test_results.json").write_text(json.dumps(test_res, indent=2), encoding="utf-8")
 
     print("Final Strict Test Results")

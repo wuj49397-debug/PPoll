@@ -250,11 +250,11 @@ def main():
         for gt, pred, match_iou in matches:
             if pred is None:
                 dist = None
-                strict_dist = None
+                abs_dist = None
                 is_matched = False
             else:
                 dist = float(np.linalg.norm(pred["point"] - gt["point"]))
-                strict_dist = dist / math.sqrt(max(gt["stigma_area"], 1e-6))
+                abs_dist = dist / math.sqrt(max(gt["stigma_area"], 1e-6))
                 is_matched = True
                 matched += 1
 
@@ -264,7 +264,7 @@ def main():
                 "matched": is_matched,
                 "box_iou": float(match_iou),
                 "dist": dist,
-                "strict_dist": strict_dist,
+                "abs_dist": abs_dist,
                 "stigma_area": float(gt["stigma_area"]),
             })
 
@@ -276,14 +276,14 @@ def main():
 
     # Unmatched GT instances are treated as failures for PCK.
     mpe = float(np.mean([x["dist"] for x in matched_items])) if matched_items else 0.0
-    strict_dist = float(np.mean([x["strict_dist"] for x in matched_items])) if matched_items else 0.0
+    abs_dist = float(np.mean([x["abs_dist"] for x in matched_items])) if matched_items else 0.0
 
-    strict_pck_005 = sum(1 for x in all_items if x["matched"] and x["strict_dist"] <= 0.05) / max(len(all_items), 1)
-    strict_pck_010 = sum(1 for x in all_items if x["matched"] and x["strict_dist"] <= 0.10) / max(len(all_items), 1)
+    stripck_005 = sum(1 for x in all_items if x["matched"] and x["abs_dist"] <= 0.05) / max(len(all_items), 1)
+    stripck_010 = sum(1 for x in all_items if x["matched"] and x["abs_dist"] <= 0.10) / max(len(all_items), 1)
 
     # Also report matched-only PCK for analysis, but use full PCK in the paper table.
-    matched_pck_005 = sum(1 for x in matched_items if x["strict_dist"] <= 0.05) / max(len(matched_items), 1)
-    matched_pck_010 = sum(1 for x in matched_items if x["strict_dist"] <= 0.10) / max(len(matched_items), 1)
+    matched_pck_005 = sum(1 for x in matched_items if x["abs_dist"] <= 0.05) / max(len(matched_items), 1)
+    matched_pck_010 = sum(1 for x in matched_items if x["abs_dist"] <= 0.10) / max(len(matched_items), 1)
 
     summary = {
         "images": len(image_paths),
@@ -293,11 +293,11 @@ def main():
         "conf": args.conf,
         "box_iou_threshold": args.box_iou,
         "MPE_matched_px": mpe,
-        "StrictDist_matched": strict_dist,
-        "StrictPCK@0.05": strict_pck_005,
-        "StrictPCK@0.10": strict_pck_010,
-        "StrictPCK@0.05_matched_only": matched_pck_005,
-        "StrictPCK@0.10_matched_only": matched_pck_010,
+        "AbsDist_matched": abs_dist,
+        "StriPCK@0.05": stripck_005,
+        "StriPCK@0.10": stripck_010,
+        "StriPCK@0.05_matched_only": matched_pck_005,
+        "StriPCK@0.10_matched_only": matched_pck_010,
     }
 
     out = {

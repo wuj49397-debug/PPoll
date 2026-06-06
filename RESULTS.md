@@ -1,8 +1,8 @@
 # Baseline Results
 
-This page summarizes the PolliFlower baseline results under the Standard and Challenging protocols.
+This page summarizes the PPoll baseline results under the Standard and Challenging protocols.
 
-`data_standard` corresponds to the Standard Protocol, and `data_hard` corresponds to the Challenging Protocol. Higher values are better for Precision, Recall, mAP, IoU, StrictIoU, Pose mAP50, and StrictPCK. Lower values are better for StrictDist.
+`data_standard` corresponds to the Standard Protocol, and `data_hard` corresponds to the Challenging Protocol. Higher values are better for Precision, Recall, mAP, IoU, EIoU, Pose mAP50, and StriPCK. Lower values are better for AbsDist.
 
 ## Annotation Examples
 
@@ -22,7 +22,7 @@ The following examples show original annotations, including flower bounding boxe
 
 ## Qualitative Prediction Examples
 
-The following examples show baseline predictions on public sample images. These visualizations are provided for qualitative inspection only; full benchmark reproduction requires access to the complete PolliFlower dataset.
+The following examples show baseline predictions on public sample images. These visualizations are provided for qualitative inspection only; full benchmark reproduction requires access to the complete PPoll dataset.
 
 ### Flower Instance Detection
 
@@ -78,7 +78,7 @@ The following examples show baseline predictions on public sample images. These 
 
 ### Stigma Instance Segmentation
 
-| Method | IoU | StrictIoU | mAP@0.5 | mAP@0.5:0.95 |
+| Method | IoU | EIoU | mAP@0.5 | mAP@0.5:0.95 |
 |---|---:|---:|---:|---:|
 | YOLOv8-seg | 0.867 | 0.846 | 0.974 | 0.794 |
 | Mask R-CNN | 0.872 | 0.841 | 0.963 | 0.775 |
@@ -86,7 +86,7 @@ The following examples show baseline predictions on public sample images. These 
 
 ### Pollination Point Localization
 
-| Method | Pose mAP50 | StrictDist | StrictPCK@0.05 | StrictPCK@0.10 |
+| Method | Pose mAP50 | AbsDist | StriPCK@0.05 | StriPCK@0.10 |
 |---|---:|---:|---:|---:|
 | YOLOv8-pose | 0.994 | 0.183 | 0.138 | 0.378 |
 | YOLO11-pose | 0.994 | 0.216 | 0.131 | 0.356 |
@@ -104,7 +104,7 @@ The following examples show baseline predictions on public sample images. These 
 
 ### Stigma Instance Segmentation
 
-| Method | IoU | StrictIoU | mAP@0.5 | mAP@0.5:0.95 |
+| Method | IoU | EIoU | mAP@0.5 | mAP@0.5:0.95 |
 |---|---:|---:|---:|---:|
 | YOLOv8-seg | 0.595 | 0.573 | 0.795 | 0.499 |
 | Mask R-CNN | 0.599 | 0.568 | 0.714 | 0.478 |
@@ -112,7 +112,7 @@ The following examples show baseline predictions on public sample images. These 
 
 ### Pollination Point Localization
 
-| Method | Pose mAP50 | StrictDist | StrictPCK@0.05 | StrictPCK@0.10 |
+| Method | Pose mAP50 | AbsDist | StriPCK@0.05 | StriPCK@0.10 |
 |---|---:|---:|---:|---:|
 | YOLOv8-pose | 0.905 | 0.230 | 0.068 | 0.226 |
 | YOLO11-pose | 0.922 | 0.237 | 0.075 | 0.226 |
@@ -120,7 +120,7 @@ The following examples show baseline predictions on public sample images. These 
 
 ## Notes
 
-- The full benchmark results require access to the complete PolliFlower dataset.
+- The full benchmark results require access to the complete PPoll dataset.
 - The public sample data are provided for format inspection and script sanity checks only.
-- StrictIoU is an operation-oriented stigma segmentation metric. In the reported setting, a predicted stigma mask must cover at least 80% of the ground-truth stigma region to receive its IoU score; otherwise, the StrictIoU score is assigned zero.
-- StrictDist and StrictPCK normalize pollination-point localization error by the stigma scale, making them more aligned with operation-level pollination accuracy than raw pixel error.
+- EIoU is an operation-oriented stigma segmentation metric. In the reported setting, a predicted stigma mask must cover at least 80% of the ground-truth stigma region to receive its IoU score; otherwise, the EIoU score is assigned zero.
+- AbsDist and StriPCK normalize pollination-point localization error by the stigma scale, making them more aligned with operation-level pollination accuracy than raw pixel error.
